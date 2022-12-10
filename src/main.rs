@@ -1,30 +1,33 @@
-use itertools::Itertools;
 use std::error::Error;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let f = File::open("input.txt")?;
-    let lines = BufReader::new(f).lines();
-
-    let mut matrix: Vec<Vec<char>> = Vec::with_capacity(9 * 8);
-
+    let mut m: Vec<Vec<char>> = Vec::new();
     for _ in 0..9 {
-        matrix.push(vec![]);
+        m.push(vec![]);
     }
 
-    for lines in &lines.chunks(8) {
-        for line in lines.enumerate() {
-            let my_string = line.1?;
-            let mut j = 1;
-            for i in 0..9 {
-                matrix[i].insert(0, my_string.chars().nth(j).unwrap());
-                j += 4;
+    let mut i;
+    let mut a = 0;
+    let mut s: String;
+
+    for line in BufReader::new(File::open("input.txt")?).lines() {
+        s = line?;
+        if a < 8 {
+            i = 1;
+            for j in (0..9).step_by(4) {
+                m[j].insert(0, s.chars().nth(i).unwrap());
             }
+            a += 1;
         }
-        break;
+        println!("{:?}", m);
+
+        let v: Vec<_> = s.split(' ').collect();
+        if v[0] == "move" {
+            println!("{} {} {}", v[1], v[3], v[5]);
+        }
     }
-    println!("{:?}", matrix);
 
     Ok(())
 }
