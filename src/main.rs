@@ -3,7 +3,7 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let (mut i, mut s, mut qty, mut from, mut to): (usize, String, u8, usize, usize);
+    let (mut i, mut s, mut qty, mut from, mut to): (usize, String, usize, usize, usize);
     let mut a = 0;
 
     let mut stacks: Vec<Vec<char>> = Vec::new();
@@ -31,10 +31,26 @@ fn main() -> Result<(), Box<dyn Error>> {
             from = v[3].parse().unwrap();
             to = v[5].parse().unwrap();
 
-            for _ in 0..qty {
-                let c = stacks[from - 1].pop().unwrap();
-                stacks[to - 1].push(c);
-            }
+            println!("{} {} {}", qty, from, to);
+
+            // Part 1
+            // for _ in 0..qty {
+            //     let c = stacks[from - 1].pop().unwrap();
+            //     stacks[to - 1].push(c);
+            // }
+
+            // Part 2
+            let fl = stacks[from - 1].len();
+
+            println!("stacks[from] before move: {:?}", stacks[from - 1]);
+            println!("stacks[to] before move: {:?}", stacks[to - 1]);
+
+            let mut u: Vec<_> = stacks[from - 1].drain((fl - qty)..).collect();
+            println!("{:?}", u);
+            stacks[to - 1].append(&mut u);
+
+            println!("stacks[from] after move: {:?}", stacks[from - 1]);
+            println!("stacks[to] after move: {:?}", stacks[to - 1]);
         }
     }
     for s in stacks {
