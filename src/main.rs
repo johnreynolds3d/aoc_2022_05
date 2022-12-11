@@ -3,17 +3,13 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 
 fn main() -> Result<(), Box<dyn Error>> {
+    let (mut i, mut s, mut qty, mut from, mut to): (usize, String, u8, usize, usize);
+    let mut a = 0;
+
     let mut stacks: Vec<Vec<char>> = Vec::new();
     for _ in 0..9 {
         stacks.push(vec![]);
     }
-
-    let mut i;
-    let mut a = 0;
-    let mut s;
-    let mut qty: u8;
-    let mut from: usize;
-    let mut to: usize;
 
     for line in BufReader::new(File::open("input.txt")?).lines() {
         s = line?;
@@ -35,21 +31,10 @@ fn main() -> Result<(), Box<dyn Error>> {
             from = v[3].parse().unwrap();
             to = v[5].parse().unwrap();
 
-            // println!("{} {} {}", qty, from, to);
-
-            // from -= 1;
-            // to -= 1;
-
-            // println!("stacks[from] before move: {:?}", stacks[from]);
-            // println!("stacks[to] before move: {:?}", stacks[to]);
-
             for _ in 0..qty {
                 let c = stacks[from - 1].pop().unwrap();
                 stacks[to - 1].push(c);
             }
-
-            // println!("stacks[from] after move: {:?}", stacks[from]);
-            // println!("stacks[to] after move: {:?}", stacks[to]);
         }
     }
     for s in stacks {
