@@ -31,8 +31,6 @@ fn main() -> Result<(), Box<dyn Error>> {
             from = v[3].parse().unwrap();
             to = v[5].parse().unwrap();
 
-            println!("{} {} {}", qty, from, to);
-
             // Part 1
             // for _ in 0..qty {
             //     let c = stacks[from - 1].pop().unwrap();
@@ -41,16 +39,8 @@ fn main() -> Result<(), Box<dyn Error>> {
 
             // Part 2
             let fl = stacks[from - 1].len();
-
-            println!("stacks[from] before move: {:?}", stacks[from - 1]);
-            println!("stacks[to] before move: {:?}", stacks[to - 1]);
-
             let mut u: Vec<_> = stacks[from - 1].drain((fl - qty)..).collect();
-            println!("{:?}", u);
             stacks[to - 1].append(&mut u);
-
-            println!("stacks[from] after move: {:?}", stacks[from - 1]);
-            println!("stacks[to] after move: {:?}", stacks[to - 1]);
         }
     }
     for s in stacks {
